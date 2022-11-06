@@ -9,7 +9,7 @@ describe('AppController', () => {
   const payload = {
     text: 'Hello World!!!',
   };
-  const appService = { createMessage: () => {} };
+  const appService = { createMessage: () => payload };
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -24,7 +24,11 @@ describe('AppController', () => {
   });
 
   it(`/POST app`, () => {
-    return request(app.getHttpServer()).post('/').send(payload).expect(201);
+    return request(app.getHttpServer())
+      .post('/')
+      .send(payload)
+      .expect(201)
+      .expect(appService.createMessage());
   });
 
   afterAll(async () => {
