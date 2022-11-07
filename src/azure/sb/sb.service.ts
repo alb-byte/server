@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { AZURE_SB_OPTIONS } from './sb.constants';
 import { AzureSbOptions } from './sb.interfaces';
 
-interface IAzureNotificationHubService {
+export interface IAzureNotificationHubService {
   instance(): ServiceBusClient;
 }
 
@@ -15,13 +15,13 @@ export class AzureSbService implements IAzureNotificationHubService {
     @Inject(AZURE_SB_OPTIONS)
     private options: AzureSbOptions,
   ) {
-    // this.sbClient = new ServiceBusClient(options.connectionString);
+    this.sbClient = new ServiceBusClient(options.connectionString);
   }
 
   instance(): ServiceBusClient {
-    if (!this.sbClient) {
-      // this.sbClient = new ServiceBusClient(this.options.connectionString);
-    }
+    if (!this.sbClient)
+      this.sbClient = new ServiceBusClient(this.options.connectionString);
+
     return this.sbClient;
   }
 }

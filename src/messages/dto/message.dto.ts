@@ -3,11 +3,10 @@ import { Length } from 'class-validator';
 
 export class MessageDto {
   @ApiProperty({
-    type: 'string',
-    format: 'uuid',
+    type: 'number',
     required: true,
   })
-  id: string;
+  id: number;
   @ApiProperty({
     type: 'string',
     minLength: 3,
@@ -19,4 +18,10 @@ export class MessageDto {
     message: 'Text length must be 3 - 30  chars',
   })
   text: string;
+  @ApiProperty({
+    type: 'string',
+    format: 'date',
+    required: true,
+  })
+  created_at: Date;
 }

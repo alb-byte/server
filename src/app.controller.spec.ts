@@ -6,29 +6,21 @@ import * as request from 'supertest';
 import { AppModule } from './app.module';
 describe('AppController', () => {
   let app: INestApplication;
-  const payload = {
-    text: 'Hello World!!!',
-  };
-  const appService = { createMessage: () => payload };
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule],
     })
-      .overrideProvider(AppService)
-      .useValue(appService)
+      // .overrideProvider(AppService)
+      // .useValue(appService)
       .compile();
 
     app = moduleRef.createNestApplication();
     await app.init();
   });
 
-  it(`/POST app`, () => {
-    return request(app.getHttpServer())
-      .post('/')
-      .send(payload)
-      .expect(201)
-      .expect(appService.createMessage());
+  it(`/GET status`, () => {
+    return request(app.getHttpServer()).get('/status').expect(200);
   });
 
   afterAll(async () => {
